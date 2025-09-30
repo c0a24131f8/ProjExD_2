@@ -10,6 +10,7 @@ WIDTH, HEIGHT = 1100, 650
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 DELTA = {pg.K_UP: (0, -5), pg.K_DOWN: (0, +5), pg.K_LEFT: (-5, 0), pg.K_RIGHT: (+5, 0),}
 
+
 def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     """
     • 引数：こうかとんRect or 爆弾Rect
@@ -55,11 +56,21 @@ def init_bb_imgs() ->tuple[list[pg.Surface], list[int]]:
         bb_imgs.append(bb_img)
     return (bb_imgs, bb_accs)
 
+#途中
 # def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
 #     kk_dict = {
-#         ( 0  0): rotozoom(kk_img, 0, 0.9)
-#         (+5  0): rotozoom()
+#         ( 0  0): rotozoom(kk_img, 0, 0),
+#         (+5  0): rotozoom(flip(kk_img, True, False), 0, 0),
+#         (+5 +5): rotozoom(flip(kk_img, True, False), -45, 0),
+#         ( 0 +5): rotozoom(flip(kk_img, True, False), -90, 0),
+#         (-5 +5): rotozoom(kk_img, 45, 0),
+#         (-5  0): rotozoom(kk_img, 0, 0),
+#         (-5 -5): rotozoom(kk_img, -45, 0),
+#         ( 0 -5): rotozoom(flip(kk_img, True, False), 90, 0),
+#         (+5 -5): rotozoom(flip(kk_img, True, False), 45, 0),
 #     }
+#     return kk_dict
+    
 
 
 def main():
@@ -69,7 +80,6 @@ def main():
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
-
     bb_img = pg.Surface((20, 20))
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)
     bb_img.set_colorkey((0, 0, 0))
@@ -77,11 +87,11 @@ def main():
     bb_rct.centerx = random.randint(0,WIDTH)
     bb_rct.centery = random.randint(0, HEIGHT)
     vx, vy = +5, +5
-
     clock = pg.time.Clock()
     tmr = 0
 
     bbimgs, bbaccs =  init_bb_imgs()
+    # kk_imgs = get_kk_imgs()　#途中
 
     while True:
         for event in pg.event.get():
@@ -99,6 +109,8 @@ def main():
             if key_lst[key]:                
                 sum_mv[0] += mv[0]
                 sum_mv[1] += mv[1]
+
+        # kk_img = kk_imgs[tuple(sum_mv)]　#途中
 
         kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True, True):
