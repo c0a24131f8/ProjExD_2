@@ -39,7 +39,7 @@ def gameover(screen: pg.Surface) -> None:
     tannkei.blit(kkgo_img, [735, 300])
     screen.blit(tannkei, [0, 0])
     pg.display.update()
-    time.sleep(8)
+    time.sleep(5)
 
 def init_bb_imgs() ->tuple[list[pg.Surface], list[int]]:
     """
@@ -54,6 +54,12 @@ def init_bb_imgs() ->tuple[list[pg.Surface], list[int]]:
         bb_img.set_colorkey((0, 0, 0))
         bb_imgs.append(bb_img)
     return (bb_imgs, bb_accs)
+
+# def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+#     kk_dict = {
+#         ( 0  0): rotozoom(kk_img, 0, 0.9)
+#         (+5  0): rotozoom()
+#     }
 
 
 def main():
